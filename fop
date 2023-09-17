@@ -1,0 +1,27 @@
+#!/bin/bash
+indx=1
+app=xdg-open
+dest=""
+indx=1
+
+
+while getopts "sl" option; do
+   case $option in
+      l)
+         ls -t1 $HOME/Downloads/* | awk -F / '{print $5}' | head -5| cat -n
+         exit 0
+         ;;
+      s)
+         app="echo"
+         ;;
+      \?)
+         exit 1
+         ;;
+   esac
+done
+
+shift "$((OPTIND-1))"
+[[ $1 =~ [1-5] ]] && indx="${1}"
+
+${app} "$(ls -t1 $HOME/Downloads/* | sed -n ${indx}p | sed 's/\ /\\\ /g' | sed 's/(/\\(/g'| sed 's/)/\\)/g')"
+

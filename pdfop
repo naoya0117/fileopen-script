@@ -1,0 +1,11 @@
+#!/bin/bash
+indx=1
+
+if [[ "$1" == "-l" ]] ; then
+   ls -t1 $HOME/Downloads/*.pdf | awk -F / '{print $5}' | head -5| cat -n
+else
+   if [[ -n "$1" ]] ; then 
+      indx="${1}" 
+   fi
+   okular "$(ls -t1 $HOME/Downloads/*.pdf | sed -n ${indx}p)"
+fi
